@@ -177,8 +177,15 @@ const internQuestions = [
     }
 ];
 
+const employees = [];
+
 const promptUser = () => {
-    return inquirer.prompt(managerQuestions);
+    return inquirer.prompt(managerQuestions)
+    .then(answers => {
+        const { name, id, email, officeNumber } = answers;
+        employees.push(new Manager(name, id, email, officeNumber))
+        return employees;
+    });
 };
 
 promptUser()
