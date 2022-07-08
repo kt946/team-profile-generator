@@ -12,6 +12,8 @@ const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+const employees = [];
+
 const managerQuestions = [
     {
         type: 'input',
@@ -177,18 +179,50 @@ const internQuestions = [
     }
 ];
 
-const employees = [];
-
 const promptUser = () => {
     return inquirer.prompt(managerQuestions)
     .then(answers => {
         const { name, id, email, officeNumber } = answers;
-        employees.push(new Manager(name, id, email, officeNumber))
+        employees.push(new Manager(name, id, email, officeNumber));
         return employees;
     });
 };
 
+const promptMenu = EmployeeData => {
+    return inquirer.prompt([
+        {
+            type: 'list',
+            name: 'selection',
+            message: "Would you like to add an engineer, an intern, or finish building your team?",
+            choices: ['Engineer', 'Intern', 'Finish Building Team']
+        }
+    ])
+    .then(menu => {
+        if (menu.selection === 'Engineer') {
+            return inquirer.prompt(engineerQuestions)
+            .then(answers => {
+                const { name, id, email, github } = answers;
+                employees.push(new Engineer(name, id, email, github));
+                return promptMenu(employees);
+            });
+        }
+        else if (menu.selection === 'Intern') {
+            return inquirer.prompt(internQuestions)
+            .then(answers => {
+                const { name, id, email, school } = answers;
+                employees.push(new Intern(name, id, email, school));
+                return promptMenu(employees);
+            });
+        }
+        else {
+            return EmployeeData;
+        }
+    });
+}
+
+
 promptUser()
+    .then(promptMenu)
     .then(EmployeeData => {
         console.log(EmployeeData);
     })
