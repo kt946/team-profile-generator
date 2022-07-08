@@ -12,62 +12,174 @@ const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-const promptUser = () => {
-    return inquirer.prompt ([
-        {
-            type: 'input',
-            name: 'name',
-            message: "What is the team manager's name? (Required)",
-            validate: nameInput => {
-                if (nameInput) {
-                    return true;
-                } else {
-                    console.log("Please enter the team manager's name!");
-                    return false;
-                }
-            }
-        },
-        {
-            type: 'input',
-            name: 'id',
-            message: "What is the team manager's employee id? (Required)",
-            validate: idInput => {
-                if (idInput) {
-                    return true;
-                } else {
-                    console.log("Please enter the team manager's employee id!");
-                    return false;
-                }
-            }
-        },
-        {
-            type: 'input',
-            name: 'email',
-            message: "What is the team manager's email address? (Required)",
-            validate: emailInput => {
-                if (emailInput) {
-                    return true;
-                } else {
-                    console.log("Please enter the team manager's email address!");
-                    return false;
-                }
-            }
-        },
-        {
-            type: 'input',
-            name: 'officeNumber',
-            message: "What is the team manager's office number? (Required)",
-            validate: officeNumberInput => {
-                if (officeNumberInput) {
-                    return true;
-                } else {
-                    console.log("Please enter the team manager's office number!");
-                    return false;
-                }
+const managerQuestions = [
+    {
+        type: 'input',
+        name: 'name',
+        message: "What is the team manager's name? (Required)",
+        validate: nameInput => {
+            if (nameInput) {
+                return true;
+            } else {
+                console.log("Please enter the team manager's name!");
+                return false;
             }
         }
-    ]);
-}
+    },
+    {
+        type: 'input',
+        name: 'id',
+        message: "What is the team manager's employee id? (Required)",
+        validate: idInput => {
+            if (idInput) {
+                return true;
+            } else {
+                console.log("Please enter the team manager's employee id!");
+                return false;
+            }
+        }
+    },
+    {
+        type: 'input',
+        name: 'email',
+        message: "What is the team manager's email address? (Required)",
+        validate: emailInput => {
+            if (emailInput) {
+                return true;
+            } else {
+                console.log("Please enter the team manager's email address!");
+                return false;
+            }
+        }
+    },
+    {
+        type: 'input',
+        name: 'officeNumber',
+        message: "What is the team manager's office number? (Required)",
+        validate: officeNumberInput => {
+            if (officeNumberInput) {
+                return true;
+            } else {
+                console.log("Please enter the team manager's office number!");
+                return false;
+            }
+        }
+    }
+];
+
+const engineerQuestions = [
+    {
+        type: 'input',
+        name: 'name',
+        message: "What is the engineer's name? (Required)",
+        validate: nameInput => {
+            if (nameInput) {
+                return true;
+            } else {
+                console.log("Please enter the engineer's name!");
+                return false;
+            }
+        }
+    },
+    {
+        type: 'input',
+        name: 'id',
+        message: "What is the engineer's employee id? (Required)",
+        validate: idInput => {
+            if (idInput) {
+                return true;
+            } else {
+                console.log("Please enter the engineer's employee id!");
+                return false;
+            }
+        }
+    },
+    {
+        type: 'input',
+        name: 'email',
+        message: "What is the engineer's email address? (Required)",
+        validate: emailInput => {
+            if (emailInput) {
+                return true;
+            } else {
+                console.log("Please enter the engineer's email address!");
+                return false;
+            }
+        }
+    },
+    {
+        type: 'input',
+        name: 'github',
+        message: "What is the engineer's GitHub username? (Required)",
+        validate: githubInput => {
+            if (githubInput) {
+                return true;
+            } else {
+                console.log("Please enter the engineer's GitHub username!");
+                return false;
+            }
+        }
+    }
+];
+
+const internQuestions = [
+    {
+        type: 'input',
+        name: 'name',
+        message: "What is the intern's name? (Required)",
+        validate: nameInput => {
+            if (nameInput) {
+                return true;
+            } else {
+                console.log("Please enter the intern's name!");
+                return false;
+            }
+        }
+    },
+    {
+        type: 'input',
+        name: 'id',
+        message: "What is the intern's employee id? (Required)",
+        validate: idInput => {
+            if (idInput) {
+                return true;
+            } else {
+                console.log("Please enter the intern's employee id!");
+                return false;
+            }
+        }
+    },
+    {
+        type: 'input',
+        name: 'email',
+        message: "What is the intern's email address? (Required)",
+        validate: emailInput => {
+            if (emailInput) {
+                return true;
+            } else {
+                console.log("Please enter the intern's email address!");
+                return false;
+            }
+        }
+    },
+    {
+        type: 'input',
+        name: 'school',
+        message: "What is the intern's school? (Required)",
+        validate: schoolInput => {
+            if (schoolInput) {
+                return true;
+            } else {
+                console.log("Please enter the intern's school!");
+                return false;
+            }
+        }
+    }
+];
+
+const promptUser = () => {
+    return inquirer.prompt(managerQuestions);
+};
 
 promptUser()
     .then(EmployeeData => {
