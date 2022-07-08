@@ -5,13 +5,11 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
-const OUTPUT_DIR = path.resolve(__dirname, "output");
+const OUTPUT_DIR = path.resolve(__dirname, "./dist/");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
 const employees = [];
 
 const managerQuestions = [
@@ -220,15 +218,39 @@ const promptMenu = EmployeeData => {
     });
 }
 
+const writeFile = htmlContent => {
+    return new Promise((resolve, reject) => {
+        fs.writeFile(outputPath, htmlContent, err => {
+            if (err) {
+                reject(err);
+                return;
+            }
+
+            resolve({
+                ok: true,
+                message: 'HTML file created!'
+            });
+        });
+    });
+};
 
 promptUser()
     .then(promptMenu)
     .then(EmployeeData => {
-        console.log(EmployeeData);
+        return render(EmployeeData);
+    })
+    .then(renderHTML => {
+        return writeFile(renderHTML);
+    })
+    .then(writeFileResponse => {
+        console.log(writeFileResponse.message);
     })
     .catch(err => {
         console.log(err);
     });
+
+// Write code to use inquirer to gather information about the development team members,
+// and to create objects for each team member (using the correct classes as blueprints!)
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
