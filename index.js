@@ -10,8 +10,10 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+// create array to contain employee objects
 const employees = [];
 
+// array containing Manager questions
 const managerQuestions = [
     {
         type: 'input',
@@ -67,6 +69,7 @@ const managerQuestions = [
     }
 ];
 
+// array containing Engineer questions
 const engineerQuestions = [
     {
         type: 'input',
@@ -122,6 +125,7 @@ const engineerQuestions = [
     }
 ];
 
+// array containing Intern questions
 const internQuestions = [
     {
         type: 'input',
@@ -177,15 +181,20 @@ const internQuestions = [
     }
 ];
 
+// initial prompt for Manager questions
 const promptUser = () => {
     return inquirer.prompt(managerQuestions)
     .then(answers => {
+        // destructure answers array
         const { name, id, email, officeNumber } = answers;
+        // create new Manager object with arguments passed in and pushed to array
         employees.push(new Manager(name, id, email, officeNumber));
+        // return array with Manager object
         return employees;
     });
 };
 
+// prompt for menu with list of choices
 const promptMenu = EmployeeData => {
     return inquirer.prompt([
         {
@@ -196,28 +205,38 @@ const promptMenu = EmployeeData => {
         }
     ])
     .then(menu => {
+        // if 'Engineer' was selected, proceed to prompt with Engineer questions
         if (menu.selection === 'Engineer') {
             return inquirer.prompt(engineerQuestions)
             .then(answers => {
+                // destructure answers
                 const { name, id, email, github } = answers;
+                // create new Engineer object with arguments passed in and pushed to array
                 employees.push(new Engineer(name, id, email, github));
+                // return to menu with updated array
                 return promptMenu(employees);
             });
         }
+        // if 'Intern' was selected, proceed to prompt with Intern questions
         else if (menu.selection === 'Intern') {
             return inquirer.prompt(internQuestions)
             .then(answers => {
+                // destructure answers
                 const { name, id, email, school } = answers;
+                // create new Intern object with arguments passed in and pushed to array
                 employees.push(new Intern(name, id, email, school));
+                // return to menu with updated array
                 return promptMenu(employees);
             });
         }
+        // if 'Finish Building Team' was selected, return current array with objects"
         else {
             return EmployeeData;
         }
     });
 }
 
+// function to write html file to output path
 const writeFile = htmlContent => {
     return new Promise((resolve, reject) => {
         fs.writeFile(outputPath, htmlContent, err => {
@@ -228,20 +247,25 @@ const writeFile = htmlContent => {
 
             resolve({
                 ok: true,
-                message: 'HTML file created!'
+                message: "Success! HTML file created in 'dist' folder!"
             });
         });
     });
 };
 
+// initialize prompt
 promptUser()
+    // prompt for menu
     .then(promptMenu)
+    // render employee array to html
     .then(EmployeeData => {
         return render(EmployeeData);
     })
+    // write HTML file with employee HTML
     .then(renderHTML => {
         return writeFile(renderHTML);
     })
+    // display success response
     .then(writeFileResponse => {
         console.log(writeFileResponse.message);
     })
