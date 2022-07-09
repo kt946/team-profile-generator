@@ -30,6 +30,8 @@ To use this application:
 - When all prompts are answered, a message will inform the user that the HTML file has been created.
 - Navigate to the 'dist' directory to find your completed 'team.html'.
 
+https://user-images.githubusercontent.com/103476893/178086717-1ccf44dc-6160-46b4-927a-fadfcc82fd8e.mp4
+
 ## License
 
 This application is covered under the [MIT](https://opensource.org/licenses/MIT).
