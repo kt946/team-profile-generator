@@ -18,7 +18,7 @@ For this week's challenge, I built a team profile generator using my knowledge o
 
 To install this application:
 - Clone the application's repository and place it into a local directory on your computer.
-- Ensure that your computer has node.js installed. Typing'node -v' into the terminal will display the current version installed.
+- Ensure that your computer has node.js installed. Typing 'node -v' into the terminal will display the current version installed.
 - Open a command-line terminal (VS Code, Git Bash, etc.) and navigate to the directory containing the application's 'index.js'.
 - In the command-line, type 'npm install' to download the application's dependencies.
 
