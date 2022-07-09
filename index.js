@@ -13,17 +13,17 @@ const render = require("./lib/htmlRenderer");
 // create array to contain employee objects
 const employees = [];
 
-// array containing Manager questions
-const managerQuestions = [
+// array containing Employee questions
+const employeeQuestions = [
     {
         type: 'input',
         name: 'name',
-        message: "What is the team manager's name? (Required)",
+        message: "What is the the employee's name? (Required)",
         validate: nameInput => {
             if (nameInput) {
                 return true;
             } else {
-                console.log("Please enter the team manager's name!");
+                console.log("Please enter the employee's name!");
                 return false;
             }
         }
@@ -31,12 +31,12 @@ const managerQuestions = [
     {
         type: 'input',
         name: 'id',
-        message: "What is the team manager's employee id? (Required)",
+        message: "What is the employee's id? (Required)",
         validate: idInput => {
             if (idInput) {
                 return true;
             } else {
-                console.log("Please enter the team manager's employee id!");
+                console.log("Please enter the employee's id!");
                 return false;
             }
         }
@@ -44,154 +44,84 @@ const managerQuestions = [
     {
         type: 'input',
         name: 'email',
-        message: "What is the team manager's email address? (Required)",
+        message: "What is the employee's email address? (Required)",
         validate: emailInput => {
             if (emailInput) {
                 return true;
             } else {
-                console.log("Please enter the team manager's email address!");
-                return false;
-            }
-        }
-    },
-    {
-        type: 'input',
-        name: 'officeNumber',
-        message: "What is the team manager's office number? (Required)",
-        validate: officeNumberInput => {
-            if (officeNumberInput) {
-                return true;
-            } else {
-                console.log("Please enter the team manager's office number!");
+                console.log("Please enter the employee's email address!");
                 return false;
             }
         }
     }
 ];
 
-// array containing Engineer questions
-const engineerQuestions = [
-    {
-        type: 'input',
-        name: 'name',
-        message: "What is the engineer's name? (Required)",
-        validate: nameInput => {
-            if (nameInput) {
-                return true;
-            } else {
-                console.log("Please enter the engineer's name!");
-                return false;
-            }
-        }
-    },
-    {
-        type: 'input',
-        name: 'id',
-        message: "What is the engineer's employee id? (Required)",
-        validate: idInput => {
-            if (idInput) {
-                return true;
-            } else {
-                console.log("Please enter the engineer's employee id!");
-                return false;
-            }
-        }
-    },
-    {
-        type: 'input',
-        name: 'email',
-        message: "What is the engineer's email address? (Required)",
-        validate: emailInput => {
-            if (emailInput) {
-                return true;
-            } else {
-                console.log("Please enter the engineer's email address!");
-                return false;
-            }
-        }
-    },
-    {
-        type: 'input',
-        name: 'github',
-        message: "What is the engineer's GitHub username? (Required)",
-        validate: githubInput => {
-            if (githubInput) {
-                return true;
-            } else {
-                console.log("Please enter the engineer's GitHub username!");
-                return false;
-            }
+// object containing Manager question
+const managerQuestion = {
+    type: 'input',
+    name: 'officeNumber',
+    message: "What is the employee's office number? (Required)",
+    validate: officeNumberInput => {
+        if (officeNumberInput) {
+            return true;
+        } else {
+            console.log("Please enter the employee's office number!");
+            return false;
         }
     }
-];
+};
 
-// array containing Intern questions
-const internQuestions = [
-    {
-        type: 'input',
-        name: 'name',
-        message: "What is the intern's name? (Required)",
-        validate: nameInput => {
-            if (nameInput) {
-                return true;
-            } else {
-                console.log("Please enter the intern's name!");
-                return false;
-            }
-        }
-    },
-    {
-        type: 'input',
-        name: 'id',
-        message: "What is the intern's employee id? (Required)",
-        validate: idInput => {
-            if (idInput) {
-                return true;
-            } else {
-                console.log("Please enter the intern's employee id!");
-                return false;
-            }
-        }
-    },
-    {
-        type: 'input',
-        name: 'email',
-        message: "What is the intern's email address? (Required)",
-        validate: emailInput => {
-            if (emailInput) {
-                return true;
-            } else {
-                console.log("Please enter the intern's email address!");
-                return false;
-            }
-        }
-    },
-    {
-        type: 'input',
-        name: 'school',
-        message: "What is the intern's school? (Required)",
-        validate: schoolInput => {
-            if (schoolInput) {
-                return true;
-            } else {
-                console.log("Please enter the intern's school!");
-                return false;
-            }
+// object containing Engineer question
+const engineerQuestion = {
+    type: 'input',
+    name: 'github',
+    message: "What is the employee's GitHub username? (Required)",
+    validate: githubInput => {
+        if (githubInput) {
+            return true;
+        } else {
+            console.log("Please enter the employee's GitHub username!");
+            return false;
         }
     }
-];
+};
+
+// object containing Intern question
+const internQuestion = {
+    type: 'input',
+    name: 'school',
+    message: "What is the employee's school? (Required)",
+    validate: schoolInput => {
+        if (schoolInput) {
+            return true;
+        } else {
+            console.log("Please enter the employee's school!");
+            return false;
+        }
+    }
+};
 
 // initial prompt for Manager questions
 const promptUser = () => {
-    return inquirer.prompt(managerQuestions)
+    console.log(`
+        ==================
+        Add a Team Manager
+        ==================
+    `);
+
+    // combine Employee and Manager questions into single array
+    const questions = [...employeeQuestions, managerQuestion];
+        
+    // prompt user for Employee questions including Manager question
+    return inquirer.prompt(questions)
     .then(answers => {
-        // destructure answers array
+        // destructure Manager answers array
         const { name, id, email, officeNumber } = answers;
         // create new Manager object with arguments passed in and pushed to array
         employees.push(new Manager(name, id, email, officeNumber));
         // return array with Manager object
         return employees;
-    });
+    })
 };
 
 // prompt for menu with list of choices
@@ -207,21 +137,41 @@ const promptMenu = EmployeeData => {
     .then(menu => {
         // if 'Engineer' was selected, proceed to prompt with Engineer questions
         if (menu.selection === 'Engineer') {
-            return inquirer.prompt(engineerQuestions)
+            console.log(`
+                ===============
+                Add an Engineer
+                ===============
+            `);
+
+            // combine Employee and Engineer questions into single array
+            const questions = [...employeeQuestions, engineerQuestion];
+
+            // prompt user for Employee questions including Engineer question
+            return inquirer.prompt(questions)
             .then(answers => {
-                // destructure answers
+                // destructure Engineer answers array
                 const { name, id, email, github } = answers;
                 // create new Engineer object with arguments passed in and pushed to array
                 employees.push(new Engineer(name, id, email, github));
                 // return to menu with updated array
                 return promptMenu(employees);
-            });
+            })
         }
         // if 'Intern' was selected, proceed to prompt with Intern questions
         else if (menu.selection === 'Intern') {
-            return inquirer.prompt(internQuestions)
+            console.log(`
+                =============
+                Add an Intern
+                =============
+            `);
+
+            // combine Employee and Intern questions into single array
+            const questions = [...employeeQuestions, internQuestion];
+
+            // prompt user for Employee questions including Intern question
+            return inquirer.prompt(questions)
             .then(answers => {
-                // destructure answers
+                // destructure Intern answers array
                 const { name, id, email, school } = answers;
                 // create new Intern object with arguments passed in and pushed to array
                 employees.push(new Intern(name, id, email, school));
@@ -258,13 +208,9 @@ promptUser()
     // prompt for menu
     .then(promptMenu)
     // render employee array to html
-    .then(EmployeeData => {
-        return render(EmployeeData);
-    })
-    // write HTML file with employee HTML
-    .then(renderHTML => {
-        return writeFile(renderHTML);
-    })
+    .then(render)
+    // write HTML file with employee HTML to 'dist' folder
+    .then(writeFile)
     // display success response
     .then(writeFileResponse => {
         console.log(writeFileResponse.message);
