@@ -30,7 +30,7 @@ To use this application:
 - When all prompts are answered, a message will inform the user that the HTML file has been created.
 - Navigate to the 'dist' directory to find your completed 'team.html'.
 
-https://user-images.githubusercontent.com/103476893/178086717-1ccf44dc-6160-46b4-927a-fadfcc82fd8e.mp4
+https://user-images.githubusercontent.com/103476893/178121571-3d09b6ab-c297-4a2f-98bc-d585a8a0255f.mp4
 
 ## License
 
